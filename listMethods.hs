@@ -43,8 +43,26 @@ isAsc [] = True
 isAsc (x:xs)
   | length (x:xs) == 1 = True
   | x > (head xs) = False
-  | otherwise = isAsc xs
-  
-  -- | all [x < y | y <- xs]
+  | otherwise = isAsc xs 
 
+{-
   
+-}
+--- hasPath :: [(Int, Int)] -> Int -> Int -> Bool
+--- hasPath [] x y = x == y
+--- hasPath edges x y
+---   | (x, y) `elemOf` edges = True
+---   | otherwise = 
+---       let newEdges = [edge | edge <- edges, y /= snd edge]
+---           newNodes = [fst edge | edge <- edges, y == snd edge]
+---           in any (hasPath newEdges x) newNodes
+      
+-- [(1,2) , (2,3) , (3,2) , (4,3) , (4,5)]
+
+hasPath :: [(Int, Int)] ->  Int ->  Int -> Bool
+hasPath [] x y = x == y
+hasPath edges x y
+  | x ==  y = True
+  | otherwise = 
+    let edges'= [(n,m) | (n,m) <- edges, n /= x] in 
+        or [hasPath edges' m y | (n,m) <-  edges, n == x]
